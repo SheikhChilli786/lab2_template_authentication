@@ -48,3 +48,18 @@ class EnrollView(View):
         course.total_enrollment += 1
         course.save()
         return HttpResponseRedirect(reverse(viewname='onlinecourse:course_details', args=(course.id,)))
+
+def login_request(request):
+    context = {}
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["psw"]
+
+        user = authenticate(username = username,password = password)
+        if user is not None:
+            login(request,user)
+            return redirect('onlinecourse:popular_course_list')
+        else:
+            return render(request, 'onlinecourse/user_login.html',context)
+    else:
+        return render(request,'onlinecourse/user_login.html',context)
