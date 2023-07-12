@@ -23,10 +23,13 @@
     {% else %}
     <div class="rightalign">
         <div class="dropdown">
-            <button class="dropbtn">Visitor</button>
-            <div class="dropdown-content">
-                <a href="{% url 'onlinecourse:login' %}">Login</a>
-            </div>
+            <form action="{% url 'onlinecourse:registration' %}" method="get">
+                <input class="dropbtn"  type="submit" value="Visitor">
+                <div class="dropdown-content">
+                    <a href="{% url 'onlinecourse:registration' %}">Signup</a>
+                    <a href="{% url 'onlinecourse:login' %}">Login</a>
+                </div>
+            </form>
         </div>
     </div>
 {% endif %}

@@ -63,3 +63,26 @@ def login_request(request):
             return render(request, 'onlinecourse/user_login.html',context)
     else:
         return render(request,'onlinecourse/user_login.html',context)
+
+def registration_request(request):
+    context = {}
+    if request.method == 'GET':
+        return render(request, 'onlinecourse/user_registration.html',context)
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['psw']
+        first_name = request.POST['firstname']
+        last_name = request.POST['lastname']
+        user_exist = False
+        try:
+            User.objects.get(username=username)
+            user_exist = True
+        except:
+            logger.debug("{} is new user".format(username))
+
+        if not user_exist:
+            user = User.objects.create_user(username = username,password = password)
+            login(request,user)
+            return redirect("onlinecourse:popular_course_list")
+        else:
+            return render(request,'onlinecourse/user_registration.html',context)
